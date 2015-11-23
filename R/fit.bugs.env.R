@@ -153,7 +153,7 @@ fit.bugs.env <- function(y,x.clim,x.nonclim=NULL,car.sigma=0.1,num,adj,u,
     bugs.directory="C:/Program Files (x86)/WinBUGS14/",
     WinBUGS.debug=FALSE,WinBUGS.code=NULL,WinBUGS.code.location=NULL,
     no.starting.value=NULL,estimate.p=FALSE,estimate.u=FALSE,
-    u.clique.start,u.clique.end,adj.clique.start,adj.clique.end,clique,clique.i){
+    u.clique.start,u.clique.end,adj.clique.start,adj.clique.end,clique,clique.i, ...){
 
     #plateau.package.directory <- paste(path.package("plateau"),"/models/",sep="")
     # Move to working directory or temporary directory when NULL
@@ -477,12 +477,12 @@ fit.bugs.env <- function(y,x.clim,x.nonclim=NULL,car.sigma=0.1,num,adj,u,
     WinBUGS.data$which.beta <- which.beta
 
     #require(R2WinBUGS)
-    cat("Starting WinBUGS run - opening WinBUGS now...\n")
+    message("Starting WinBUGS run - opening WinBUGS now...")
     results <- bugs(WinBUGS.data,WinBUGS.inits,WinBUGS.monitor,WinBUGS.model,
         chains,post.burnin+burnin,burnin,thin,
         bugs.directory=bugs.directory,
-        working.directory=working.directory,codaPkg=FALSE,debug=WinBUGS.debug,DIC=FALSE)
-    cat("WinBUGS run completed.\n")
+        working.directory=working.directory,codaPkg=FALSE,debug=WinBUGS.debug,DIC=FALSE,...)
+    message("WinBUGS run completed.")
     parvec <- c(log(t(results$mean$beta)),results$mean$ax,log(results$mean$az-results$mean$beta0),results$mean$az)
     beta.mat <- results$mean$beta
     if(n.x.clim!=1){
